@@ -121,69 +121,73 @@ function PhotoCard({ photo, index, isSelected, isFavorite, isSelectMode, onClick
   const [hovered, setHovered] = useState(false);
 
   return (
-    <motion.div
+    <div
       className={`${styles.card} ${isSelected ? styles.selected : ''}`}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ delay: Math.min(index * 0.04, 0.4) }}
-      onClick={onClick}
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      whileHover={{ y: -4 }}
       draggable
       onDragStart={(e: React.DragEvent) => {
         e.dataTransfer.setData('photoId', photo.photoId);
         e.dataTransfer.effectAllowed = 'move';
       }}
+      onClick={onClick}
     >
-      {!loaded && <div className={`skeleton ${styles.imgPlaceholder}`} />}
-      <img
-        src={photo.thumbUrl}
-        alt={photo.caption || 'Photo'}
-        className={styles.img}
-        style={{ opacity: loaded ? 1 : 0 }}
-        loading="lazy"
-        onLoad={() => setLoaded(true)}
-      />
+      <motion.div
+        className={styles.motionWrap}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        transition={{ delay: Math.min(index * 0.04, 0.4) }}
+        onHoverStart={() => setHovered(true)}
+        onHoverEnd={() => setHovered(false)}
+        whileHover={{ y: -4 }}
+      >
+        {!loaded && <div className={`skeleton ${styles.imgPlaceholder}`} />}
+        <img
+          src={photo.thumbUrl}
+          alt={photo.caption || 'Photo'}
+          className={styles.img}
+          style={{ opacity: loaded ? 1 : 0 }}
+          loading="lazy"
+          onLoad={() => setLoaded(true)}
+        />
 
-      <AnimatePresence>
-        {(hovered || isSelectMode) && (
-          <motion.div
-            className={styles.overlay}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            {isSelectMode ? (
-              <div className={styles.checkWrap}>
-                {isSelected ? (
-                  <CheckCircle size={28} fill="#6c63ff" color="#fff" />
-                ) : (
-                  <div className={styles.emptyCheck} />
-                )}
-              </div>
-            ) : (
-              <div className={styles.hoverActions}>
-                <button
-                  className={`icon-btn ${isFavorite ? 'active' : ''}`}
-                  onClick={(e) => { e.stopPropagation(); onFavorite(); }}
-                >
-                  <Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} />
-                </button>
-                <button
-                  className="icon-btn"
-                  style={{ color: '#ff6b6b' }}
-                  onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                >
-                  <Trash2 size={16} />
-                </button>
-              </div>
-            )}
-            {photo.caption && <p className={styles.caption}>{photo.caption}</p>}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+        <AnimatePresence>
+          {(hovered || isSelectMode) && (
+            <motion.div
+              className={styles.overlay}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {isSelectMode ? (
+                <div className={styles.checkWrap}>
+                  {isSelected ? (
+                    <CheckCircle size={28} fill="#6c63ff" color="#fff" />
+                  ) : (
+                    <div className={styles.emptyCheck} />
+                  )}
+                </div>
+              ) : (
+                <div className={styles.hoverActions}>
+                  <button
+                    className={`icon-btn ${isFavorite ? 'active' : ''}`}
+                    onClick={(e) => { e.stopPropagation(); onFavorite(); }}
+                  >
+                    <Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} />
+                  </button>
+                  <button
+                    className="icon-btn"
+                    style={{ color: '#ff6b6b' }}
+                    onClick={(e) => { e.stopPropagation(); onDelete(); }}
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              )}
+              {photo.caption && <p className={styles.caption}>{photo.caption}</p>}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
   );
 }
