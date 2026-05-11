@@ -2,9 +2,9 @@ import { signOut } from 'aws-amplify/auth';
 import { motion } from 'framer-motion';
 import {
   Camera, Search, Sun, Moon, Grid, LayoutGrid, Maximize2,
-  SortDesc, CheckSquare, X, Trash2, LogOut
+  CheckSquare, X, Trash2, LogOut
 } from 'lucide-react';
-import { useGalleryStore, type SortBy, type ViewMode } from '../store/galleryStore';
+import { useGalleryStore, type SortBy } from '../store/galleryStore';
 import { useQueryClient } from '@tanstack/react-query';
 import { deletePhoto } from '../services/uploadService';
 import { galleryApi } from '../api/gallery';

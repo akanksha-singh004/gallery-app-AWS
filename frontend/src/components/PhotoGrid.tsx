@@ -132,7 +132,7 @@ function PhotoCard({ photo, index, isSelected, isFavorite, isSelectMode, onClick
       onHoverEnd={() => setHovered(false)}
       whileHover={{ y: -4 }}
       draggable
-      onDragStart={(e) => {
+      onDragStart={(e: React.DragEvent) => {
         e.dataTransfer.setData('photoId', photo.photoId);
         e.dataTransfer.effectAllowed = 'move';
       }}

@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Download, Trash2, Heart, ChevronLeft, ChevronRight,
-  ZoomIn, ZoomOut, RotateCw, Info, Share2
+  ZoomIn, ZoomOut, RotateCw, Info
 } from 'lucide-react';
 import type { Photo } from '../api/gallery';
 import { deletePhoto, downloadPhoto } from '../services/uploadService';
