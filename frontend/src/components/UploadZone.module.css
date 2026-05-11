@@ -1,0 +1,52 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.overlay > input { display: none; }
+
+/* Enable pointer events so dropzone works */
+.dropIndicator {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: rgba(10, 10, 18, 0.9);
+  backdrop-filter: blur(12px);
+  border: 2px dashed var(--accent);
+  color: var(--accent);
+  font-size: 24px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.fab {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #6c63ff, #00d4ff);
+  box-shadow: 0 8px 32px rgba(108, 99, 255, 0.5);
+  transition: box-shadow 0.2s;
+}
+
+.fab:hover {
+  box-shadow: 0 12px 40px rgba(108, 99, 255, 0.7);
+}

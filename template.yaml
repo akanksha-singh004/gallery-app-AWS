@@ -1,0 +1,170 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Cloud Photo Gallery Backend
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 256
+    Runtime: nodejs18.x
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        TABLE: photos
+        ORIGINALS_BUCKET: gallery-deploy-bucket-akanksha
+        THUMBS_BUCKET: gallery-deploy-bucket-akanksha
+        CDN_URL: https://gallery-deploy-bucket-akanksha.s3.eu-north-1.amazonaws.com/thumbnails
+
+Resources:
+  GalleryHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        AllowHeaders:
+          - "*"
+        AllowMethods:
+          - "*"
+        MaxAge: 300
+      Auth:
+        Authorizers:
+          CognitoAuthorizer:
+            JwtConfiguration:
+              issuer: !Sub "https://cognito-idp.${AWS::Region}.amazonaws.com/eu-north-1_cR4uwkeR7"
+              audience:
+                - "2me32ags4un7q81mp7gcuksfiu"
+            IdentitySource: "$request.header.Authorization"
+        DefaultAuthorizer: CognitoAuthorizer
+
+  GetUploadUrlFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/getUploadUrl/
+      Handler: index.handler
+      Policies:
+        - S3FullAccessPolicy:
+            BucketName: gallery-deploy-bucket-akanksha
+        - DynamoDBCrudPolicy:
+            TableName: photos
+
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref GalleryHttpApi
+            Path: /upload-url
+            Method: POST
+
+  ConfirmUploadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/confirmUpload/
+      Handler: index.handler
+      Policies:
+        - S3FullAccessPolicy:
+            BucketName: gallery-deploy-bucket-akanksha
+        - DynamoDBCrudPolicy:
+            TableName: photos
+
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref GalleryHttpApi
+            Path: /confirm-upload
+            Method: POST
+
+  ListPhotosFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/listPhotos/
+      Handler: index.handler
+      Policies:
+        - S3FullAccessPolicy:
+            BucketName: gallery-deploy-bucket-akanksha
+        - DynamoDBCrudPolicy:
+            TableName: photos
+
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref GalleryHttpApi
+            Path: /photos
+            Method: GET
+
+  DeletePhotoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/deletePhoto/
+      Handler: index.handler
+      Policies:
+        - S3FullAccessPolicy:
+            BucketName: gallery-deploy-bucket-akanksha
+        - DynamoDBCrudPolicy:
+            TableName: photos
+
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref GalleryHttpApi
+            Path: /photos/{photoId+}
+            Method: DELETE
+
+  GetDownloadUrlFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/getDownloadUrl/
+      Handler: index.handler
+      Policies:
+        - S3FullAccessPolicy:
+            BucketName: gallery-deploy-bucket-akanksha
+        - DynamoDBCrudPolicy:
+            TableName: photos
+
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref GalleryHttpApi
+            Path: /photos/{photoId}/download
+            Method: GET
+
+  MovePhotoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/movePhoto/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: photos
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref GalleryHttpApi
+            Path: /photos/move
+            Method: PATCH
+
+  ThumbnailerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/thumbnailer/
+      Handler: index.handler
+      Policies:
+        - S3FullAccessPolicy:
+            BucketName: gallery-deploy-bucket-akanksha
+        - DynamoDBCrudPolicy:
+            TableName: photos
+
+      MemorySize: 1024
+      Timeout: 30
+      Events: {}
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${GalleryHttpApi}.execute-api.${AWS::Region}.amazonaws.com"

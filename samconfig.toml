@@ -1,0 +1,12 @@
+version = 0.1
+
+[default.deploy.parameters]
+stack_name = "sam-app"
+s3_bucket = "gallery-deploy-bucket-akanksha"
+s3_prefix = "sam-app"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
+
+[default.global.parameters]
+region = "eu-north-1"

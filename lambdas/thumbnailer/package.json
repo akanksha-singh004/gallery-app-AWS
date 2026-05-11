@@ -1,0 +1,20 @@
+{
+  "name": "thumbnailer",
+  "version": "1.0.0",
+  "description": "Image resizer for S3",
+  "main": "index.mjs",
+  "type": "module",
+  "dependencies": {
+    "sharp": "^0.33.5"
+  },
+  "overrides": {
+    "sharp": {
+      "optionalDependencies": {
+        "@img/sharp-linux-x64": "^0.33.5"
+      }
+    }
+  },
+  "optionalDependencies": {
+    "@img/sharp-linux-x64": "^0.34.5"
+  }
+}

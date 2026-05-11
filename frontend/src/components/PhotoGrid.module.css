@@ -1,0 +1,108 @@
+.masonryGrid {
+  columns: 2;
+  column-gap: 16px;
+  padding: 24px;
+}
+
+@media (min-width: 640px) { .masonryGrid { columns: 3; } }
+@media (min-width: 1024px) { .masonryGrid { columns: 4; } }
+@media (min-width: 1440px) { .masonryGrid { columns: 5; } }
+
+.uniformGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 24px;
+}
+
+.largeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 24px;
+}
+
+.skeletonCard {
+  width: 100%;
+  break-inside: avoid;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.card {
+  position: relative;
+  break-inside: avoid;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.card.selected { border-color: var(--accent); }
+
+.img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  transition: opacity 0.4s;
+}
+
+.imgPlaceholder {
+  width: 100%;
+  height: 200px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.hoverActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.caption {
+  font-size: 12px;
+  color: rgba(255,255,255,0.9);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.checkWrap {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.emptyCheck {
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(255,255,255,0.7);
+  border-radius: 50%;
+  background: rgba(0,0,0,0.3);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 60vh;
+  color: var(--text-muted);
+  text-align: center;
+}
+.empty p { font-size: 20px; font-weight: 600; color: var(--text); }
+.empty span { font-size: 14px; }

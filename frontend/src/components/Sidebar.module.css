@@ -1,0 +1,122 @@
+.sidebar {
+  width: 260px;
+  height: calc(100vh - 80px);
+  padding: 24px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  padding-left: 12px;
+}
+
+.addBtn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.addBtn:hover {
+  background: var(--hover-color);
+  color: var(--accent-primary);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  text-align: left;
+}
+
+.item:hover {
+  background: var(--hover-color);
+  color: var(--text-primary);
+}
+
+.item.active {
+  background: rgba(108, 99, 255, 0.1);
+  color: var(--accent-primary);
+}
+
+.item.dragOver {
+  background: rgba(108, 99, 255, 0.2);
+  outline: 2px dashed var(--accent-primary);
+  transform: scale(1.02);
+}
+
+.addInputWrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+  margin-bottom: 8px;
+}
+
+.addInputWrap input {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.addInputWrap input:focus {
+  outline: 1px solid var(--accent-primary);
+}
+
+.addInputWrap button {
+  background: var(--accent-primary);
+  border: none;
+  color: white;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.folderList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
